@@ -14,21 +14,45 @@ import Team7159.Enums.Colors;
 
 public class ColorManip {
 
+    ColorSensor adafruit;
+
+    public ColorManip(ColorSensor AdafruitSensor){
+        adafruit = AdafruitSensor;
+    }
+
     public static int getRed(ColorSensor AdafruitSensor){
         return AdafruitSensor.red();
+    }
+
+    public int getRed(){
+        return adafruit.red();
     }
 
     public static int getBlue(ColorSensor AdafruitSensor){
         return AdafruitSensor.blue();
     }
 
+    public int getBlue(){
+        return adafruit.blue();
+    }
+
     public static int getGreen(ColorSensor AdafruitSensor){
         return AdafruitSensor.green();
+    }
+
+    public int getGreen(){
+        return adafruit.green();
     }
 
     public static float[] getHSV(ColorSensor AdafruitSensor){
         float[] hsvValues = new float[3];
         Color.RGBToHSV((AdafruitSensor.red() * 255) / 800, (AdafruitSensor.green() * 255) / 800, (AdafruitSensor.blue() * 255) / 800, hsvValues);
+        return hsvValues;
+    }
+
+    public float[] getHSV(){
+        float[] hsvValues = new float[3];
+        Color.RGBToHSV((adafruit.red() * 255) / 800, (adafruit.green() * 255) / 800, (adafruit.blue() * 255) / 800, hsvValues);
         return hsvValues;
     }
 

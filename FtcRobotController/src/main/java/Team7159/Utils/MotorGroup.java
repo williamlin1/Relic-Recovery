@@ -28,6 +28,7 @@ public class MotorGroup {
     //In case you forgot to put motors in the initialization
 
     public void addMotor(DcMotor... toAdd){
+        dcMotors = new ArrayList<>();
         for(DcMotor motor: toAdd){
             dcMotors.add(motor);
         }

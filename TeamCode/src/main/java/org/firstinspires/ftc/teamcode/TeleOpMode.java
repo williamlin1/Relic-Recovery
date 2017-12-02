@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,7 +10,7 @@ import Team7159.PanamaOld.MecanumV2;
  * Created by William on 10/5/2016.
  * Teleop for Mecanum drive
  */
-
+@Disabled
 @TeleOp(name="Mecanum")
 public class TeleOpMode extends LinearOpMode {
 
