@@ -14,13 +14,10 @@ import Team7159.Utils.MotorGroup;
 @TeleOp(name="TeleOp4Bar")
 public class TeleOp4Bar extends LinearOpMode{
 
-    FBarRobot robot = new FBarRobot();
+    private FBarRobot robot = new FBarRobot();
 
 //    MotorGroup left;
 //    MotorGroup right;
-
-    int first = 0;
-    int second = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,287 +38,76 @@ public class TeleOp4Bar extends LinearOpMode{
 
         while(opModeIsActive()) {
 
-            first = second;
-            second = robot.AMotor.getCurrentPosition();
+            double rightFront = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
+            double rightBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
+            double leftFront  = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
+            double leftBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
 
+            double maxLeft = Math.max(Math.abs(leftFront), Math.abs(leftBack));
+            double maxRight = Math.max(Math.abs(rightFront),Math.abs(rightBack));
+            double max = Math.max(Math.abs(maxLeft),Math.abs(maxRight));
 
-            boolean close = gamepad1.x;
+            if(max > 1.0){
+                leftFront /= max;
+                leftBack /= max;
+                rightFront /= max;
+                rightBack /= max;
+            }
+
+            robot.AAS.setPosition(0);
+
             boolean open = gamepad1.b;
+            boolean close = gamepad1.x;
 
-            double r = -gamepad1.left_stick_y-gamepad1.left_stick_x;
-            double l = -gamepad1.left_stick_y+gamepad1.left_stick_x;
+            if(close){
+                robot.RAS.setPosition(1.0);
+                robot.LAS.setPosition(0.62);
+            }
 
-            r = r*Math.abs(r);
-            l = l*Math.abs(l);
+            if(open){
+                robot.RAS.setPosition(0.4);
+                robot.LAS.setPosition(0.1);
+            }
 
             double a = -gamepad1.right_stick_y;
 
-            double max = Math.max(Math.abs(l), Math.abs(r));
+            robot.LFMotor.setPower(leftFront);
+            robot.LBMotor.setPower(leftBack);
+            robot.RFMotor.setPower(rightFront);
+            robot.RBMotor.setPower(rightBack);
 
-            if(max!=0) {
-                if(max >=1) {
-                    r /= max;
-                    l /= max;
-                }else{
-                    continue;
-                }
-            }else{
-                r = 0;
-                l = 0;
-            }
-
-            while(close){
-
-                first = second;
-                second = robot.AMotor.getCurrentPosition();
-
-                posl = posl<=0.1?0.1:posl-0.05;
-                posr = posr<=0.4?0.4:posr-0.05;
-
-                r = -gamepad1.left_stick_y-gamepad1.left_stick_x;
-                l = -gamepad1.left_stick_y+gamepad1.left_stick_x;
-
-                r = r*Math.abs(r);
-                l = l*Math.abs(l);
-
-                 max = Math.max(Math.abs(l), Math.abs(r));
-
-                if(max!=0) {
-                    if(max >=1) {
-                        r /= max;
-                        l /= max;
-                    }else{
-                        continue;
-                    }
-                }else{
-                    r = 0;
-                    l = 0;
-                }
-
-                close = gamepad1.x;
-
-                robot.LAS.setPosition(posl);
-                robot.RAS.setPosition(posr);
-                Thread.sleep(30);
-
-                telemetry.addData("position of the left  ", posl);
-                telemetry.addData("position of the right  ", posr);
-
-                robot.LFMotor.setPower(l);
-                robot.LBMotor.setPower(l);
-                robot.RFMotor.setPower(r);
-                robot.RBMotor.setPower(r);
-
-
-                boolean extend = gamepad1.dpad_left;
-                while(extend){
-
-                    r = -gamepad1.left_stick_y-gamepad1.left_stick_x;
-                    l = -gamepad1.left_stick_y+gamepad1.left_stick_x;
-
-                    if(first<=second){
-                    //    robot.AMotor.setPower(0);
-                        first = second;
-                        second = robot.AMotor.getCurrentPosition();
-                    }else{
-                        robot.AMotor.setTargetPosition(first);
-                        robot.AMotor.setPower(0.1);
-                    }
-
-
-                    max = Math.max(Math.abs(l), Math.abs(r));
-
-                    if(max!=0) {
-                        if(max >=1) {
-                            r /= max;
-                            l /= max;
-                        }else{
-                            continue;
-                        }
-                    }else{
-                        r = 0;
-                        l = 0;
-                    }
-
-                    robot.Winch.setPower(0.3);
-                    extend = gamepad1.dpad_left;
-                    robot.AMotor.setPower(a);
-                    robot.LFMotor.setPower(l);
-                    robot.LBMotor.setPower(l);
-                    robot.RFMotor.setPower(r);
-                    robot.RBMotor.setPower(r);
-
-                }
-
-//                if(first == 0 &&second == 0){
-//                    robot.AMotor.setPower(0);
-//                }
-                if(first<=second){
-                    first = second;
-                    second = robot.AMotor.getCurrentPosition();
-                }else{
-                    robot.AMotor.setTargetPosition(first);
-                    robot.AMotor.setPower(0.1);
-                }
-
-                robot.Winch.setPower(0);
-//                left.setPowers(l);
-//                right.setPowers(r);
-
-                robot.AMotor.setPower(a);
-            }
-
-            while(open){
-
-                first = second;
-                second = robot.AMotor.getCurrentPosition();
-
-                r = -gamepad1.left_stick_y-gamepad1.left_stick_x;
-                l = -gamepad1.left_stick_y+gamepad1.left_stick_x;
-
-                r = r*Math.abs(r);
-                l = l*Math.abs(l);
-
-                max = Math.max(Math.abs(l), Math.abs(r));
-
-                if(max!=0) {
-                    if(max >=1) {
-                        r /= max;
-                        l /= max;
-                    }else{
-                        continue;
-                    }
-                }else{
-                    r = 0;
-                    l = 0;
-                }
-
-                if(first<=second){
-                    first = second;
-           //         robot.AMotor.setPower(0);
-                    second = robot.AMotor.getCurrentPosition();
-                }else{
-                    robot.AMotor.setTargetPosition(first);
-                    robot.AMotor.setPower(0.1);
-                }
-
-                posl = posl>=1?1:posl+0.05;
-                posr = posr>=1?1:posr+0.05;
-
-                open = gamepad1.b;
-
-                robot.LAS.setPosition(posl);
-                robot.RAS.setPosition(posr);
-                Thread.sleep(30);
-
-                telemetry.addData("position of the left  ", posl);
-                telemetry.addData("position of the right  ", posr);
-
-                robot.LFMotor.setPower(l);
-                robot.LBMotor.setPower(l);
-                robot.RFMotor.setPower(r);
-                robot.RBMotor.setPower(r);
-
-//                left.setPowers(l);
-//                right.setPowers(r);
-
-                robot.AMotor.setPower(a);
-
-                boolean extend = gamepad1.dpad_left;
-                while(extend){
-                    if(first<=second){
-                        first = second;
-                        second = robot.AMotor.getCurrentPosition();
-                    }else{
-                        robot.AMotor.setTargetPosition(first);
-                        robot.AMotor.setPower(0.1);
-                    }
-                    r = -gamepad1.left_stick_y-gamepad1.left_stick_x;
-                    l = -gamepad1.left_stick_y+gamepad1.left_stick_x;
-
-                    r = r*Math.abs(r);
-                    l = l*Math.abs(l);
-
-                    max = Math.max(Math.abs(l), Math.abs(r));
-
-                    if(max!=0) {
-                        if(max >=1) {
-                            r /= max;
-                            l /= max;
-                        }else{
-                            continue;
-                        }
-                    }else{
-                        r = 0;
-                        l = 0;
-                    }
-
-                    robot.Winch.setPower(0.3);
-                    extend = gamepad1.dpad_left;
-                    robot.AMotor.setPower(a);
-                    robot.LFMotor.setPower(l);
-                    robot.LBMotor.setPower(l);
-                    robot.RFMotor.setPower(r);
-                    robot.RBMotor.setPower(r);
-                }
-
-                robot.Winch.setPower(0);
-            }
-
-            robot.LAS.setPosition(robot.LAS.getPosition());
-            robot.RAS.setPosition(robot.RAS.getPosition());
-
-            max = Math.max(Math.abs(l), Math.abs(r));
-
-            if(max!=0) {
-                if(max >=1) {
-                    r /= max;
-                    l /= max;
-                }else{
-                    continue;
-                }
-            }else{
-                r = 0;
-                l = 0;
-            }
-
-            robot.LFMotor.setPower(l);
-            robot.LBMotor.setPower(l);
-            robot.RFMotor.setPower(r);
-            robot.RBMotor.setPower(r);
-
-//            left.setPowers(l);
-//            right.setPowers(r);
+            robot.AMotor.setPower(a);
 
             boolean extend = gamepad1.dpad_left;
             while(extend){
 
-                if(first<=second){
-                    first = second;
-                    second = robot.AMotor.getCurrentPosition();
-                }else{
-                    robot.AMotor.setTargetPosition(first);
-                    robot.AMotor.setPower(0.1);
+                rightFront = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
+                rightBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
+                leftFront  = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
+                leftBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+
+                maxLeft = Math.max(Math.abs(leftFront), Math.abs(leftBack));
+                maxRight = Math.max(Math.abs(rightFront),Math.abs(rightBack));
+                max = Math.max(Math.abs(maxLeft),Math.abs(maxRight));
+
+                if(max > 1.0){
+                    leftFront /= max;
+                    leftBack /= max;
+                    rightFront /= max;
+                    rightBack /= max;
                 }
 
-                robot.Winch.setPower(0.3);
+                robot.Winch.setPower(0.6);
                 extend = gamepad1.dpad_left;
                 robot.AMotor.setPower(a);
 
+                robot.LFMotor.setPower(leftFront);
+                robot.LBMotor.setPower(leftBack);
+                robot.RFMotor.setPower(rightFront);
+                robot.RBMotor.setPower(rightBack);
             }
-
-            if(first<=second){
-                first = second;
-                second = robot.AMotor.getCurrentPosition();
-            }else{
-                robot.AMotor.setTargetPosition(first);
-                robot.AMotor.setPower(0.1);
-            }
-
 
             robot.Winch.setPower(0);
-
-            robot.AMotor.setPower(a);
         }
     }
 }

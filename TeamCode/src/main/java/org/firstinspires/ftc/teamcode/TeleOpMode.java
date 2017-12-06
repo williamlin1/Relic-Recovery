@@ -33,26 +33,26 @@ public class TeleOpMode extends LinearOpMode {
         while(opModeIsActive()){
 
 
-//            rightFront = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
-//            rightBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
-//            leftFront  = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
-//            leftBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
-//
-//            double maxLeft = Math.max(Math.abs(leftFront), Math.abs(leftBack));
-//            double maxRight = Math.max(Math.abs(rightFront),Math.abs(rightBack));
-//            double max = Math.max(Math.abs(maxLeft),Math.abs(maxRight));
-//
-//            if(max > 1.0){
-//                leftFront /= max;
-//                leftBack /= max;
-//                rightFront /= max;
-//                rightBack /= max;
-//            }
-//
-//            Robot.RFMotor.setPower(rightFront);
-//            Robot.RBMotor.setPower(rightBack);
-//            Robot.LFMotor.setPower(leftFront);
-//            Robot.LBMotor.setPower(leftBack);
+            rightFront = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
+            rightBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
+            leftFront  = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
+            leftBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+
+            double maxLeft = Math.max(Math.abs(leftFront), Math.abs(leftBack));
+            double maxRight = Math.max(Math.abs(rightFront),Math.abs(rightBack));
+            double max = Math.max(Math.abs(maxLeft),Math.abs(maxRight));
+
+            if(max > 1.0){
+                leftFront /= max;
+                leftBack /= max;
+                rightFront /= max;
+                rightBack /= max;
+            }
+
+            Robot.RFMotor.setPower(rightFront);
+            Robot.RBMotor.setPower(rightBack);
+            Robot.LFMotor.setPower(leftFront);
+            Robot.LBMotor.setPower(leftBack);
         }
     }
 }

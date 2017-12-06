@@ -63,8 +63,8 @@ public class FBarRobot {
         LAS.setDirection(Servo.Direction.FORWARD);
         RAS.setDirection(Servo.Direction.REVERSE);
 
-        LFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        LBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RFMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RBMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         LFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
