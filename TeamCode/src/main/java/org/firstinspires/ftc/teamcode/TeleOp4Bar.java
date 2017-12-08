@@ -38,10 +38,10 @@ public class TeleOp4Bar extends LinearOpMode{
 
         while(opModeIsActive()) {
 
-            double rightFront = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
-            double rightBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
-            double leftFront  = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
-            double leftBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+            double rightFront = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
+            double rightBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+            double leftFront  = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
+            double leftBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
 
             double maxLeft = Math.max(Math.abs(leftFront), Math.abs(leftBack));
             double maxRight = Math.max(Math.abs(rightFront),Math.abs(rightBack));
@@ -56,17 +56,26 @@ public class TeleOp4Bar extends LinearOpMode{
 
             robot.AAS.setPosition(0);
 
+
+          //  gamepad1.left_trigger>0{
+
             boolean open = gamepad1.b;
             boolean close = gamepad1.x;
+            boolean half = gamepad1.y;
 
             if(close){
                 robot.RAS.setPosition(1.0);
-                robot.LAS.setPosition(0.62);
+                robot.LAS.setPosition(0.82);
             }
 
             if(open){
                 robot.RAS.setPosition(0.4);
                 robot.LAS.setPosition(0.1);
+            }
+
+            if(half){
+                robot.RAS.setPosition(0.7);
+                robot.LAS.setPosition(0.41);
             }
 
             double a = -gamepad1.right_stick_y;
@@ -81,10 +90,12 @@ public class TeleOp4Bar extends LinearOpMode{
             boolean extend = gamepad1.dpad_left;
             while(extend){
 
-                rightFront = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
-                rightBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
-                leftFront  = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
-                leftBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+                rightFront = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;
+                rightBack = gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+                leftFront  = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
+                leftBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
+
+                robot.AMotor.setPower(a);
 
                 maxLeft = Math.max(Math.abs(leftFront), Math.abs(leftBack));
                 maxRight = Math.max(Math.abs(rightFront),Math.abs(rightBack));

@@ -25,6 +25,8 @@ public class blueBack extends LinearOpMode {
         robot.AAS.setPosition(0);
         color = new ColorManip(robot.colorSensor);
 
+        robot.colorSensor.enableLed(true);
+
         waitForStart();
 
         //swing servo down
@@ -32,21 +34,30 @@ public class blueBack extends LinearOpMode {
         Thread.sleep(500);
         //0.5 is placeholder for straight down as far as possible
 
-        int r = color.getRed();
-        int b = color.getBlue();
+        int r = robot.colorSensor.red();
+        int b = robot.colorSensor.blue();
+
+
+        telemetry.addData("red  ", r);
+        telemetry.addData("blue  ", b);
+        telemetry.update();
+
         Colors frontC = r>b?Colors.RED:Colors.BLUE;
         if(frontC.equals(Colors.RED)){
             //Hit back, placeholder value
             robot.moveStraight(-0.3);
-            Thread.sleep(200);
+            Thread.sleep(500);
             robot.stop();
         }else{
             //Hit foward, placeholder value
 //            robot.SAB.setPosition(0.7);
             robot.moveStraight(0.3);
-            Thread.sleep(200);
+            Thread.sleep(500);
             robot.stop();
         }
+
+        robot.colorSensor.enableLed(false);
+
         //back as far as possible
 //        robot.SAB.setPosition(1);
         //Resetting top to back
