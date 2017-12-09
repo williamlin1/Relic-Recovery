@@ -23,15 +23,14 @@ public class redBack extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
         robot.AAS.setPosition(0);
-        color = new ColorManip(robot.colorSensor);
 
         robot.colorSensor.enableLed(true);
 
         waitForStart();
 
         //swing servo down
-        robot.AAS.setPosition(0.6);
-        Thread.sleep(500);
+        robot.AAS.setPosition(0.8);
+        Thread.sleep(2000);
 
         int r = robot.colorSensor.red();
         int b = robot.colorSensor.blue();
@@ -41,21 +40,32 @@ public class redBack extends LinearOpMode {
         telemetry.update();
 
         Colors frontC = r>b?Colors.RED:Colors.BLUE;
+        if(r==b){
+            telemetry.addData(" r and b are the same", "a");
+            telemetry.update();
+            Thread.sleep(500);
+            robot.moveStraight(-0.5);
+            Thread.sleep(1150);
+            robot.stop();
+            return;
+        }
         if(frontC.equals(Colors.RED)){
             //Hit back, placeholder value
-            robot.moveStraight(0.3);
+            robot.moveStraight(-0.5);
             Thread.sleep(500);
             robot.stop();
-
+            robot.moveStraight(0.5);
             Thread.sleep(500);
-
+            robot.stop();
         }else{
             //Hit foward, placeholder value
 //            robot.SAB.setPosition(0.7);
-            robot.moveStraight(-0.3);
+            robot.moveStraight(0.5);
             Thread.sleep(500);
             robot.stop();
-            Thread.sleep(500);
+            robot.moveStraight(-0.5);
+            Thread.sleep(800);
+            robot.stop();
         }
 
         robot.colorSensor.enableLed(false);
@@ -66,7 +76,7 @@ public class redBack extends LinearOpMode {
 
         robot.AAS.setPosition(0);
 
-        robot.moveStraight(0.5);
+        robot.moveStraight(-0.5);
 
         Thread.sleep(1150);
 

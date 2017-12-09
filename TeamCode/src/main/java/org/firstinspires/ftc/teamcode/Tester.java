@@ -29,15 +29,30 @@ public class Tester extends LinearOpMode {
 
         while(opModeIsActive()){
 
+     //       robot.RA.setPosition(0.5+gamepad1.left_stick_x/2);
 
-            robot.RAS.setPosition(0.5+gamepad1.left_stick_x);
-            robot.LAS.setPosition(0.5+gamepad1.right_stick_x);
+     //       robot.RAS.setPosition(0.5+gamepad1.left_stick_x);
+     //       robot.LAS.setPosition(0.5+gamepad1.right_stick_x);
 
-            telemetry.addData("left    ", robot.LAS.getPosition());
-            telemetry.addData("right   ", robot.RAS.getPosition());
+         //   robot.colorSensor.alpha();
+
+            telemetry.addData("red  ", robot.colorSensor.red());
+            telemetry.addData("blue  ", robot.colorSensor.blue());
+            telemetry.addData("green  ", robot.colorSensor.green());
+            telemetry.addData("argb   ", robot.colorSensor.argb());
+            telemetry.addData("alpha   ", robot.colorSensor.alpha());
             telemetry.update();
 //
-//            Thread.sleep(50);
+//            telemetry.addData("arm thing     ", robot.RA.getPosition());
+//            telemetry.update();
+//
+//            Thread.sleep(100);
+
+//            telemetry.addData("left    ", robot.LAS.getPosition());
+//            telemetry.addData("right   ", robot.RAS.getPosition());
+//            telemetry.update();
+////
+////            Thread.sleep(50);
 //
 //            while(up){
 //                posa = posa>=1?1:posa+0.05;

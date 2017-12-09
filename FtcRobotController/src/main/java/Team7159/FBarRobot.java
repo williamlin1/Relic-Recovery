@@ -33,6 +33,8 @@ public class FBarRobot {
 
     public ColorSensor colorSensor;
 
+    public Servo RA;
+
     public void init(HardwareMap Map){
 
         LFMotor = Map.dcMotor.get("LF");
@@ -48,6 +50,8 @@ public class FBarRobot {
         RAS = Map.servo.get("RAS");
 
         AAS = Map.servo.get("AAS");
+
+        RA = Map.servo.get("RA");
 
         colorSensor = Map.colorSensor.get("colorSensor");
 
