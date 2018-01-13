@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import Team7159.FBarRobot;
 import Team7159.Utils.MotorGroup;
@@ -12,12 +11,12 @@ import Team7159.Utils.MotorGroup;
  * THIS IS PROBABLY A USEFUL CLASS
  */
 @TeleOp(name = "TeleOp")
-public class TeleOpNew extends LinearOpMode{
+public class TeleOpClass extends LinearOpMode {
 
     private FBarRobot robot = new FBarRobot();
 
-    MotorGroup Left;
-    MotorGroup Right;
+    MotorGroup Left = new MotorGroup();
+    MotorGroup Right = new MotorGroup();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -25,10 +24,13 @@ public class TeleOpNew extends LinearOpMode{
 
         waitForStart();
 
-        double posrt = 0.5;
+        Left.addMotor(robot.LFMotor,robot.LBMotor);
+        Right.addMotor(robot.RFMotor,robot.RBMotor);
+
+        double posrt = 0;
         double posrb = 1;
-        double poslt = 0.4;
-        double poslb = 0.75;
+        double poslt = 0;
+        double poslb = 0.82;
 
         robot.RAST.setPosition(posrt);
         robot.RASB.setPosition(posrb);
@@ -38,12 +40,12 @@ public class TeleOpNew extends LinearOpMode{
         while(opModeIsActive()) {
 
             robot.AASB.setPosition(0);
-            robot.AAST.setPosition(0.4);
+            robot.AAST.setPosition(0);
 
             if(gamepad1.y){
-                robot.AMotor.setPower(1);
+                robot.AMotor.setPower(0.8);
             }else if(gamepad1.a){
-                robot.AMotor.setPower(-0.5);
+                robot.AMotor.setPower(-0.6);
             }else{
                 robot.AMotor.setPower(0);
             }
@@ -77,6 +79,13 @@ public class TeleOpNew extends LinearOpMode{
 
             //  gamepad1.left_trigger>0{
 
+            telemetry.addData("Left Front Motor Power   ", leftFront);
+            telemetry.addData("Left Back Motor Power    ", leftBack);
+            telemetry.addData("Right Front Motor Power  ", rightFront);
+            telemetry.addData("Right Back Motor Power   ", rightBack);
+            telemetry.update();
+
+
             robot.LFMotor.setPower(leftFront);
             robot.LBMotor.setPower(leftBack);
             robot.RFMotor.setPower(rightFront);
@@ -84,19 +93,19 @@ public class TeleOpNew extends LinearOpMode{
 
 
             if(gamepad1.right_bumper){
-                robot.RA.setPosition(0);
+//                robot.RA.setPosition(0);
             }
 
             if(gamepad1.right_trigger>0){
-                robot.RA.setPosition(0.2);
+//                robot.RA.setPosition(0.2);
             }
 
             boolean open = gamepad1.left_trigger>0;
             if(open){
-                posrt = posrt-0.08<0.2?0.2:posrt-0.08;
-                posrb = posrb+0.08>0.8?0.8:posrb+0.08;
+                posrt = posrt-0.08<0?0:posrt-0.08;
+                posrb = posrb+0.08>1?1:posrb+0.08;
                 poslt = poslt-0.08<0?0:poslt-0.08;
-                poslb = poslb+0.08>0.8?0.8:poslb+0.08;
+                poslb = poslb+0.08>0.82?0.82:poslb+0.08;
 
                 robot.RAST.setPosition(posrt);
                 robot.RASB.setPosition(posrb);
@@ -113,10 +122,10 @@ public class TeleOpNew extends LinearOpMode{
             boolean close = gamepad1.left_bumper;
 
             if(close){
-                posrt = posrt+0.08>1?1:posrt+0.08;
-                posrb = posrb-0.08<0?0:posrb-0.08;
-                poslt = poslt+0.08>0.75?0.75:poslt+0.08;
-                poslb = poslb-0.08<0?0:poslb-0.08;
+                posrt = posrt+0.08>0.85?0.85:posrt+0.08;
+                posrb = posrb-0.08<0.2?0.2:posrb-0.08;
+                poslt = poslt+0.08>0.7?0.7:poslt+0.08;
+                poslb = poslb-0.08<0.1?0.1:poslb-0.08;
 
                 robot.RAST.setPosition(posrt);
                 robot.RASB.setPosition(posrb);
@@ -125,8 +134,12 @@ public class TeleOpNew extends LinearOpMode{
             }
 
             boolean extend = gamepad1.dpad_left;
+            boolean retract = gamepad1.dpad_right;
+
             if(extend){
-                robot.Winch.setPower(0.52);
+                robot.Winch.setPower(0.62);
+            }else if(retract){
+                robot.Winch.setPower(-0.4);
             }else{
                 robot.Winch.setPower(0);
             }

@@ -21,7 +21,6 @@ public class FBarRobot {
 
     public RobotComp Comp;
 
-
     public Servo LAST;
     public Servo RAST;
 
@@ -45,6 +44,8 @@ public class FBarRobot {
     public Servo RA;
 
     public void init(HardwareMap Map){
+
+        Comp = new RobotComp();
 
         LFMotor = Map.dcMotor.get("LF");
         RFMotor = Map.dcMotor.get("RF");
@@ -111,8 +112,8 @@ public class FBarRobot {
     public void turn(Direction direction, int degrees, MotorGroup Right, MotorGroup Left){
         Right.resetEncoders();
         Left.resetEncoders();
-        int LeftDistance = Comp.computeTurningPos(direction, degrees,Direction.LEFT, 19.0, Version.TWO);
-        int RightDistance = Comp.computeTurningPos(direction, degrees,Direction.RIGHT, 19.0, Version.TWO);
+        int LeftDistance = Comp.computeTurningPos(direction, degrees, Direction.LEFT, 26.5, Version.TWO);
+        int RightDistance = Comp.computeTurningPos(direction, degrees, Direction.RIGHT, 26.5, Version.TWO);
         Left.setTargetPosition(LeftDistance);
         Right.setTargetPosition(RightDistance);
         Left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -133,16 +134,18 @@ public class FBarRobot {
         Left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         switch(direction){
             case FORWARDS:
-                Right.setTargetPosition(Comp.computePositionD(RobotMath.toMeters(distance),Version.TWO));
-                Left.setTargetPosition(Comp.computePositionD(RobotMath.toMeters(distance), Version.TWO));
+                int pos = -Comp.computePositionD(RobotMath.toMeters(distance), Version.TWO);
+                Right.setTargetPosition(pos);
+                Left.setTargetPosition(pos);
                 break;
             case BACKWARDS:
-                Right.setTargetPosition(-Comp.computePositionD(RobotMath.toMeters(distance), Version.TWO));
-                Left.setTargetPosition(-Comp.computePositionD(RobotMath.toMeters(distance), Version.TWO));
+                pos = Comp.computePositionD(RobotMath.toMeters(distance), Version.TWO);
+                Right.setTargetPosition(pos);
+                Left.setTargetPosition(pos);
                 break;
         }
-        Right.setPowers(0.3);
-        Left.setPowers(0.3);
+        Right.setPowers(0.5);
+        Left.setPowers(0.5);
         while(Right.isBusy()&&Left.isBusy()){}
         Right.setPowers(0);
         Left.setPowers(0);
