@@ -4,9 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import Team7159.Enums.Colors;
+import Team7159.Enums.Direction;
 import Team7159.Enums.Side;
 import Team7159.FBarRobot;
 import Team7159.Utils.ColorManip;
+import Team7159.Utils.MotorGroup;
 
 /**
  * Created by WILLIAM LIN on 11/28/2017 for the Relic Recovery game.
@@ -19,57 +21,46 @@ public class blueBack extends LinearOpMode {
     FBarRobot robot = new FBarRobot();
     ColorManip color;
 
+    private MotorGroup Left = new MotorGroup();
+    private MotorGroup Right = new MotorGroup();
+
     @Override
     public void runOpMode() throws InterruptedException {
 
+        Left.addMotor(robot.LFMotor,robot.LBMotor);
+        Right.addMotor(robot.RFMotor,robot.RBMotor);
+
+
         robot.init(hardwareMap);
-        robot.AAS.setPosition(0);
+
+        robot.AAST.setPosition(0);
 
         robot.colorSensor.enableLed(true);
 
         waitForStart();
 
         //swing servo down
-        robot.AAS.setPosition(0.8);
+        robot.AAST.setPosition(0.8);
         Thread.sleep(2000);
         //0.5 is placeholder for straight down as far as possible
 
         int r = robot.colorSensor.red();
         int b = robot.colorSensor.blue();
 
-
         telemetry.addData("red  ", r);
         telemetry.addData("blue  ", b);
         telemetry.update();
 
-        Colors frontC = r>b?Colors.RED:Colors.BLUE;
+        Colors backColor = r>b?Colors.RED:Colors.BLUE;
         if(r==b){
             telemetry.addData(" r and b are the same", "a");
             telemetry.update();
-            Thread.sleep(500);
-            robot.AAS.setPosition(0);
-            robot.moveStraight(0.5);
-            Thread.sleep(1150);
-            robot.stop();
-            return;
-        }
-        if(frontC.equals(Colors.RED)){
+        }else if(backColor.equals(Colors.RED)){
             //Hit back, placeholder value
-            robot.moveStraight(0.5);
-            Thread.sleep(500);
-            robot.stop();
-            robot.moveStraight(-0.5);
-            Thread.sleep(500);
-            robot.stop();
+            robot.AASB.setPosition(0.3);
         }else{
             //Hit foward, placeholder value
-//            robot.SAB.setPosition(0.7);
-            robot.moveStraight(-0.5);
-            Thread.sleep(400);
-            robot.stop();
-            robot.moveStraight(0.5);
-            Thread.sleep(800);
-            robot.stop();
+            robot.AASB.setPosition(0.8);
         }
 
         robot.colorSensor.enableLed(false);
@@ -79,14 +70,12 @@ public class blueBack extends LinearOpMode {
         //Resetting top to back
 //        robot.SAT.setPosition(1);
 
-        robot.AAS.setPosition(0);
+        robot.AAST.setPosition(0);
 
-        robot.moveStraight(0.5);
+        //VUFORIOS THIS SHIT DUDE
 
-        Thread.sleep(1150);
-
-        robot.stop();
-
+        robot.driveDir(Direction.BACKWARDS,35,Right,Left);
+        robot.turn(Direction.RIGHT, 90, Right,Left);
 
         //VUFORIA STUFF THAT IM NOT DOING RIGHT NOW
 

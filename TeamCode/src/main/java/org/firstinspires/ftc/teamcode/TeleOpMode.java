@@ -32,7 +32,6 @@ public class TeleOpMode extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
 
-
             rightFront = gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x;
             rightBack = gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x;
             leftFront  = gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x;

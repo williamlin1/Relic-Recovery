@@ -3,6 +3,7 @@ package Team7159.Debug;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
@@ -19,9 +20,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by William on 10/4/2016.
  * JK this is new haha 9/14/2017
  */
-
 @Disabled
-@Autonomous(name = "VuforiaTester")
+@TeleOp(name = "VuforiaTest")
 public class VuforiaTester extends LinearOpMode {
     VuforiaLocalizer vuforia;
     VuforiaLocalizer.Parameters parameters;
@@ -45,20 +45,6 @@ public class VuforiaTester extends LinearOpMode {
 
         VuforiaTrackable template = Images.get(0);
 
-//        VuforiaTrackable Wheels = Images.get(0);
-//        Wheels.setName("WheelsImage");  // Wheel Images, Blue #1
-//
-//        VuforiaTrackable Tools = Images.get(1);
-//        Tools.setName("ToolsImage");  // Tool Images, Red #2
-//
-//        VuforiaTrackable Legos = Images.get(2);
-//        Legos.setName("LegosImage");  // Lego Images, Blue #2
-//
-//        VuforiaTrackable Gears = Images.get(3);
-//        Gears.setName("GearsImage");  // Gear Images, Red #1
-
-
-
         waitForStart();
         Images.activate();
 
@@ -67,20 +53,18 @@ public class VuforiaTester extends LinearOpMode {
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(template);
             OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) template.getListener()).getPose();
             if(pose!= null) {
-                VectorF translation = pose.getTranslation();
-                double distance = Math.sqrt(Math.pow(translation.get(0), 2) + Math.pow(translation.get(1), 2) + Math.pow(translation.get(2), 2));
-//            for (VuforiaTrackable img : Images) {
-
-//                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) img.getListener()).getPose();
-//                if (pose != null) {
-//                    VectorF translation = pose.getTranslation();
-//                    double degreesToTurn = Math.toDegrees(Math.atan2(translation.get(2), translation.get(1)))+90.0;
-//                    telemetry.addData(img.getName() + "Degrees to Turn", degreesToTurn);
-//                    double distance = Math.sqrt(Math.pow(translation.get(1), 2) + Math.pow(translation.get(2), 2));
-//                    telemetry.addData(img.getName() + "Distance", distance);
-//                    telemetry.update();
-//                }
-//            }
+                if(vuMark.equals(RelicRecoveryVuMark.CENTER)){
+                    telemetry.addData("thing ", "center go fuck yourself");
+                }
+                if(vuMark.equals(RelicRecoveryVuMark.LEFT)){
+                    telemetry.addData("thing ", "left go fuck yourself");
+                }
+                if(vuMark.equals(RelicRecoveryVuMark.RIGHT)){
+                    telemetry.addData("thing ", "right go fuck yourself");
+                }
+                telemetry.update();
+//                VectorF translation = pose.getTranslation();
+//                double distance = Math.sqrt(Math.pow(translation.get(0), 2) + Math.pow(translation.get(1), 2) + Math.pow(translation.get(2), 2));
             }
         }
     }

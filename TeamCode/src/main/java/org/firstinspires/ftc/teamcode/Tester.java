@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,6 +14,7 @@ import Team7159.FBarRobot;
  * THIS IS PROBABLY A USEFUL CLASS
  */
 
+@Disabled
 @TeleOp(name="tester")
 public class Tester extends LinearOpMode {
 
@@ -29,19 +31,34 @@ public class Tester extends LinearOpMode {
 
         while(opModeIsActive()){
 
-     //       robot.RA.setPosition(0.5+gamepad1.left_stick_x/2);
+        //    robot.RA.setPosition(0.5+gamepad1.left_stick_x/2);
 
-     //       robot.RAS.setPosition(0.5+gamepad1.left_stick_x);
-     //       robot.LAS.setPosition(0.5+gamepad1.right_stick_x);
+            robot.AAST.setPosition(0.5+gamepad1.left_stick_x/2);
+            //TOP Servo
+            //0.2 is forward,
+            //0.7 is back
+
+
+
+            //BOT Servo
+            //0 is up
+            //0.8 is down
+
+
+            robot.AASB.setPosition(0.5+gamepad1.right_stick_x/2);
+
+            telemetry.addData("Auto arm servo top   ", robot.AAST.getPosition());
+            telemetry.addData("Auto arm servo bot   ", robot.AASB.getPosition());
+            telemetry.update();
 
          //   robot.colorSensor.alpha();
 
-            telemetry.addData("red  ", robot.colorSensor.red());
-            telemetry.addData("blue  ", robot.colorSensor.blue());
-            telemetry.addData("green  ", robot.colorSensor.green());
-            telemetry.addData("argb   ", robot.colorSensor.argb());
-            telemetry.addData("alpha   ", robot.colorSensor.alpha());
-            telemetry.update();
+//            telemetry.addData("red  ", robot.colorSensor.red());
+//            telemetry.addData("blue  ", robot.colorSensor.blue());
+//            telemetry.addData("green  ", robot.colorSensor.green());
+//            telemetry.addData("argb   ", robot.colorSensor.argb());
+//            telemetry.addData("alpha   ", robot.colorSensor.alpha());
+//            telemetry.update();
 //
 //            telemetry.addData("arm thing     ", robot.RA.getPosition());
 //            telemetry.update();

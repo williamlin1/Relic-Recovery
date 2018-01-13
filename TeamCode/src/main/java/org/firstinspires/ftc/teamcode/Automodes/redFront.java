@@ -4,9 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import Team7159.Enums.Colors;
+import Team7159.Enums.Direction;
 import Team7159.Enums.Side;
 import Team7159.FBarRobot;
 import Team7159.Utils.ColorManip;
+import Team7159.Utils.MotorGroup;
 
 /**
  * Created by WILLIAM LIN on 11/28/2017 for the Relic Recovery game.
@@ -19,20 +21,25 @@ import Team7159.Utils.ColorManip;
 public class redFront extends LinearOpMode {
 
     FBarRobot robot = new FBarRobot();
-    ColorManip color;
+
+    MotorGroup Right = new MotorGroup();
+    MotorGroup Left = new MotorGroup();
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
-        robot.AAS.setPosition(0);
+        robot.AAST.setPosition(0);
+
+        Right.addMotor(robot.RFMotor,robot.RBMotor);
+        Left.addMotor(robot.LFMotor,robot.LBMotor);
 
         robot.colorSensor.enableLed(true);
 
         waitForStart();
 
         //swing servo down
-        robot.AAS.setPosition(0.8);
+        robot.AAST.setPosition(0.8);
         Thread.sleep(2000);
         //0.5 is placeholder for straight down as far as possible
 
@@ -47,48 +54,17 @@ public class redFront extends LinearOpMode {
         if(r==b){
             telemetry.addData(" r and b are the same", "a");
             telemetry.update();
-            Thread.sleep(500);
-            robot.AAS.setPosition(0);
-            robot.moveStraight(-0.5);
-            Thread.sleep(1150);
-            robot.stop();
-            return;
-        }
-        if(frontC.equals(Colors.RED)){
-            //Hit back, placeholder value
-
-            robot.moveStraight(-0.5);
-            Thread.sleep(500);
-            robot.stop();
-            robot.moveStraight(0.5);
-            Thread.sleep(500);
-            robot.stop();
+        }else if(frontC.equals(Colors.RED)){
+            // hit to wherever
+            robot.AASB.setPosition(0.8);
         }else{
-            //Hit foward, placeholder value
-//            robot.SAB.setPosition(0.7);
-            robot.moveStraight(0.5);
-            Thread.sleep(500);
-            robot.stop();
-            robot.moveStraight(-0.5);
-            Thread.sleep(800);
-            robot.stop();
+            robot.AASB.setPosition(0.6);
         }
 
         robot.colorSensor.enableLed(false);
 
-        robot.AAS.setPosition(0);
-
-        robot.moveStraight(-0.5);
-
-        Thread.sleep(1150);
-
-        robot.stop();
-        //back as far as possible
-//        robot.SAB.setPosition(1);
-        //Resetting top to back
-//        robot.SAT.setPosition(1);
-
-
+        robot.driveDir(Direction.FORWARDS,25,Right,Left);
+        //Strafe towards left
         //VUFORIA STUFF THAT IM NOT DOING RIGHT NOW
 
         Side side = Side.CENTER;

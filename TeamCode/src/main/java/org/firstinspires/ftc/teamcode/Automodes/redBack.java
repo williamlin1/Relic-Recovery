@@ -2,11 +2,14 @@ package org.firstinspires.ftc.teamcode.Automodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import Team7159.Enums.Colors;
+import Team7159.Enums.Direction;
 import Team7159.Enums.Side;
 import Team7159.FBarRobot;
 import Team7159.Utils.ColorManip;
+import Team7159.Utils.MotorGroup;
 
 /**
  * Created by WILLIAM LIN on 11/28/2017 for the Relic Recovery game.
@@ -19,17 +22,24 @@ public class redBack extends LinearOpMode {
     FBarRobot robot = new FBarRobot();
     ColorManip color;
 
+    MotorGroup Left = new MotorGroup();
+    MotorGroup Right = new MotorGroup();
+
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-        robot.AAS.setPosition(0);
+
+        Left.addMotor(robot.LFMotor,robot.LBMotor);
+        Right.addMotor(robot.RFMotor,robot.RBMotor);
+
+        robot.AAST.setPosition(0);
 
         robot.colorSensor.enableLed(true);
 
         waitForStart();
 
         //swing servo down
-        robot.AAS.setPosition(0.8);
+        robot.AAST.setPosition(0.8);
         Thread.sleep(2000);
 
         int r = robot.colorSensor.red();
@@ -43,44 +53,18 @@ public class redBack extends LinearOpMode {
         if(r==b){
             telemetry.addData(" r and b are the same", "a");
             telemetry.update();
-            Thread.sleep(500);
-            robot.moveStraight(-0.5);
-            Thread.sleep(1150);
-            robot.stop();
-            return;
-        }
-        if(frontC.equals(Colors.RED)){
-            //Hit back, placeholder value
-            robot.moveStraight(-0.5);
-            Thread.sleep(500);
-            robot.stop();
-            robot.moveStraight(0.5);
-            Thread.sleep(500);
-            robot.stop();
+        }else if(frontC.equals(Colors.RED)){
+            //Wherever back is
+            robot.AASB.setPosition(0.6);
         }else{
-            //Hit foward, placeholder value
-//            robot.SAB.setPosition(0.7);
-            robot.moveStraight(0.5);
-            Thread.sleep(500);
-            robot.stop();
-            robot.moveStraight(-0.5);
-            Thread.sleep(800);
-            robot.stop();
+            //Wherever front is
+            robot.AASB.setPosition(0.8);
         }
 
-        robot.colorSensor.enableLed(false);
-        //back as far as possible
-//        robot.SAB.setPosition(1);
-        //Resetting top to back
-//        robot.SAT.setPosition(1);
+        //VUFORIOS THIS SHIT MY DUDEEEEEE
 
-        robot.AAS.setPosition(0);
-
-        robot.moveStraight(-0.5);
-
-        Thread.sleep(1150);
-
-        robot.stop();
+        robot.driveDir(Direction.FORWARDS,35,Right,Left);
+        robot.turn(Direction.RIGHT, 90, Right,Left);
 
         //VUFORIA STUFF THAT IM NOT DOING RIGHT NOW
 

@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * This is a holonomic drive
  */
 
-@Disabled
 @TeleOp(name = "hoboman")
+@Disabled
 public class TeleOpTestHolo extends LinearOpMode {
     HolonomicDude ROboto = new HolonomicDude();
 

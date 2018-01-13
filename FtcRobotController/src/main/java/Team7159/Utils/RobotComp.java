@@ -4,11 +4,12 @@ import Team7159.Enums.Direction;
 import Team7159.Enums.Version;
 
 /**
+ * Does math for the robot
  * Created by William on 10/24/2016.
  */
 
 public class RobotComp {
-    double position;
+    private double position;
 
     //Computes a position. Takes a distance in meters and converts it to position
 
